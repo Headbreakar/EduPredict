@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Teachers List</title>
+</head>
+<body class="bg-gray-100 flex">
+
+<div class="flex min-h-screen">
+     <!-- Sidebar -->
+    <aside class="w-64 bg-blue-900 text-white flex flex-col">
+      <div class="px-6 py-4 text-center font-bold text-xl border-b border-blue-700">
+        EduPredict Admin
+      </div>
+      <nav class="flex-1 px-4 py-6 space-y-4">
+        <a href="/admin-dashboard/" class="block py-2 px-3 rounded hover:bg-blue-700">Dashboard</a>
+
+        <!-- Students -->
+        <div>
+          <button onclick="toggleDropdown('studentsMenu')" 
+                  class="w-full text-left py-2 px-3 rounded hover:bg-blue-700 flex justify-between items-center">
+            Students
+            <svg class="w-4 h-4 ml-2 transform transition-transform" id="studentsMenuIcon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div id="studentsMenu" class="hidden pl-4 space-y-2">
+            <a href="{% url 'add-student' %}" class="block py-2 px-3 rounded hover:bg-blue-700">Add Student</a>
+            <a href="{% url 'students-list' %}" class="block py-2 px-3 rounded hover:bg-blue-700">Students List</a>
+          </div>
+        </div>
+
+        <!-- Teachers -->
+        <div>
+          <button onclick="toggleDropdown('teachersMenu')" 
+                  class="w-full text-left py-2 px-3 rounded hover:bg-blue-700 flex justify-between items-center">
+            Teachers
+            <svg class="w-4 h-4 ml-2 transform transition-transform" id="teachersMenuIcon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div id="teachersMenu" class="hidden pl-4 space-y-2">
+            <a href="{% url 'add-teacher' %}" class="block py-2 px-3 rounded hover:bg-blue-700">Add Teacher</a>
+            <a href="{% url 'teachers-list' %}" class="block py-2 px-3 rounded hover:bg-blue-700">Teachers List</a>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Logout -->
+      <div class="p-4 border-t border-blue-700">
+        <a href="/logout/" class="block text-center py-2 px-3 bg-red-600 rounded hover:bg-red-700">Logout</a>
+      </div>
+    </aside>
+ </div>
+
+ <script>
+    function toggleDropdown(menuId) {
+      const menu = document.getElementById(menuId);
+      const icon = document.getElementById(menuId + "Icon");
+
+      menu.classList.toggle("hidden");
+      icon.classList.toggle("rotate-180");
+    }
+  </script>
+
+  <!-- Table -->
+  <main class="flex-1 p-8">
+    <h2 class="text-2xl font-bold mb-6">Teachers List</h2>
+    <table class="min-w-full border border-gray-400 rounded-lg shadow">
+      <thead class="bg-blue-600 text-white">
+        <tr>
+          <th class="px-4 py-2 border">Name</th>
+          <th class="px-4 py-2 border">Email</th>
+          <th class="px-4 py-2 border">Subject</th>
+          <th class="px-4 py-2 border">Department</th>
+          <th class="px-4 py-2 border">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for t in teachers %}
+        <tr class="hover:bg-blue-50">
+          <td class="border px-4 py-2">{{ t.name }}</td>
+          <td class="border px-4 py-2">{{ t.email }}</td>
+          <td class="border px-4 py-2">{{ t.subject }}</td>
+          <td class="border px-4 py-2">{{ t.department }}</td>
+          <td class="border px-4 py-2 text-center space-x-2">
+            <a href="{% url 'edit-teacher' t.id %}" class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">Edit</a>
+            <a href="{% url 'delete-teacher' t.id %}" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700" onclick="return confirm('Are you sure?')">Delete</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5" class="text-center py-3">No Teachers Found</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </main>
+</body>
+</html>

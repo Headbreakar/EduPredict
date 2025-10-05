@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Select Columns</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="p-8">
+  <h2 class="text-2xl font-bold mb-4">Select Columns for Prediction</h2>
+  
+  <form method="post" action="{% url 'select-column' %}">
+    {% csrf_token %}
+
+    <h3 class="font-semibold mb-2">Select Features (X):</h3>
+    <div class="grid grid-cols-2 gap-2 mb-4">
+      {% for col in columns %}
+        <label class="flex items-center space-x-2">
+          <input type="checkbox" name="features" value="{{ col }}">
+          <span>{{ col }}</span>
+        </label>
+      {% endfor %}
+    </div>
+
+    <h3 class="font-semibold mb-2">Select Target (y):</h3>
+    <div class="grid grid-cols-2 gap-2 mb-4">
+      {% for col in columns %}
+        <label class="flex items-center space-x-2">
+          <input type="radio" name="target" value="{{ col }}" required>
+          <span>{{ col }}</span>
+        </label>
+      {% endfor %}
+    </div>
+
+    <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Process</button>
+  </form>
+</body>
+</html>

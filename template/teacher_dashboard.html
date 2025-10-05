@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+  
+  <!-- Sidebar + Main Layout -->
+  <div class="flex min-h-screen">
+    
+    <!-- Sidebar -->
+    <aside class="w-64 bg-blue-900 text-white flex flex-col">
+      <div class="px-6 py-4 text-center font-bold text-xl border-b border-blue-700">
+        EduPredict Teacher
+      </div>
+      <nav class="flex-1 px-4 py-6 space-y-4">
+        <a href="/teacher-dashboard/" class="block py-2 px-3 rounded hover:bg-blue-700">Dashboard</a>
+
+          </nav>
+
+      <!-- Logout -->
+      <div class="p-4 border-t border-blue-700">
+        <a href="/logout/" class="block text-center py-2 px-3 bg-red-600 rounded hover:bg-red-700">Logout</a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-8">
+      
+      <!-- Header + Upload -->
+      <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-gray-800">Teacher Dashboard</h1>
+        <form action="{% url 'upload-excel' %}" method="post" enctype="multipart/form-data" class="flex items-center space-x-2">
+          {% csrf_token %}
+          <input type="file" name="file" accept=".xlsx,.xls" required class="text-sm border rounded px-2 py-1">
+          <button class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Upload Excel</button>
+        </form>
+      </div>
+
+      <!-- Stats Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-white shadow rounded-lg p-6 flex items-center space-x-4">
+          <div class="p-3 bg-blue-100 text-blue-600 rounded-full">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M5.121 17.804A9 9 0 1119 10.998h-2a7 7 0 10-12.879 6.806z"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-gray-700">Total Students</h3>
+            <p class="text-2xl font-bold text-gray-900">{{ total_students }}</p>
+          </div>
+        </div>
+        </div>
+
+      <!-- Data Processing Section -->
+      <section class="bg-white p-6 rounded-lg shadow mb-6">
+        <h2 class="text-xl font-semibold mb-3 text-blue-700">Data Processing</h2>
+        <p class="text-gray-600 mb-4">Parallel processing of educational data to handle large datasets efficiently.</p>
+        <button class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Run Batch Processing</button>
+      </section>
+
+      <!-- Real-Time Data Section -->
+      <section class="bg-white p-6 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-3 text-green-700">Real-Time Data Processing</h2>
+        <p class="text-gray-600 mb-4">Integrate real-time data streaming capabilities for instant analytics and anomaly detection.</p>
+        <button class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Start Real-Time Stream</button>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    function toggleDropdown(menuId) {
+      const menu = document.getElementById(menuId);
+      const icon = document.getElementById(menuId + "Icon");
+
+      menu.classList.toggle("hidden");
+      icon.classList.toggle("rotate-180");
+    }
+  </script>
+</body>
+</html>
